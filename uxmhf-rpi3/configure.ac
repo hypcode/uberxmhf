@@ -94,6 +94,40 @@ AS_IF([test "x${enable_fiqreflection}" != "xno"],
       [FIQREFLECTION=y],
       [FIQREFLECTION=n])
 
+# selectively enable/disable mixed-trusted scheduler functionality in hypervisor
+AC_SUBST([ENABLE_UAPP_HYPMTSCHEDULER])
+AC_ARG_ENABLE([uapp_hypmtscheduler],
+	AS_HELP_STRING([--enable-uapp-hypmtscheduler@<:@=yes|no@:>@],
+		[enable mixed-trust scheduler uapp functionality in hypervisor; you must also enable FIQ interrupt reflection configure option]),
+		, [enable_uapp_hypmtscheduler=no])
+AS_IF([test "x${enable_uapp_hypmtscheduler}" != "xno"],
+      [ENABLE_UAPP_HYPMTSCHEDULER=y],
+      [ENABLE_UAPP_HYPMTSCHEDULER=n])
+
+
+# selectively enable/disable secure hyptask bootstrapping for mixed-trusted scheduler functionality in hypervisor
+AC_SUBST([ENABLE_UAPP_HYPMTSCHEDULER_SECURE_HYPTASK_BOOTSTRAP])
+AC_ARG_ENABLE([uapp_hypmtscheduler_secure_hyptask_bootstrap],
+	AS_HELP_STRING([--enable-uapp-hypmtscheduler-secure-hyptask-bootstrap@<:@=yes|no@:>@],
+		[enable secure hyptask bootstrapping for mixed-trust scheduler uapp functionality in hypervisor; you must also enable mixed-trust scheduler functionality]),
+		, [enable_uapp_hypmtscheduler_secure_hyptask_bootstrap=no])
+AS_IF([test "x${enable_uapp_hypmtscheduler_secure_hyptask_bootstrap}" != "xno"],
+      [ENABLE_UAPP_HYPMTSCHEDULER_SECURE_HYPTASK_BOOTSTRAP=y],
+      [ENABLE_UAPP_HYPMTSCHEDULER_SECURE_HYPTASK_BOOTSTRAP=n])
+
+
+# selectively enable/disable MAVLINK serial heart-beat protocol functionality in hypervisor
+AC_SUBST([ENABLE_UAPP_MAVLINKSERHB])
+AC_ARG_ENABLE([uapp_mavlinkserhb],
+	AS_HELP_STRING([--enable-uapp-mavlinkserhb@<:@=yes|no@:>@],
+		[enable MAVLINK serial heart-beat protocol uapp functionality in hypervisor; you must also enable hypervisor scheduler uapp configure option]),
+		, [enable_uapp_mavlinkserhb=no])
+AS_IF([test "x${enable_uapp_mavlinkserhb}" != "xno"],
+      [ENABLE_UAPP_MAVLINKSERHB=y],
+      [ENABLE_UAPP_MAVLINKSERHB=n])
+
+
+
 # selectively enable/disable HMAC functionality in hypervisor
 AC_SUBST([ENABLE_UAPP_UHSIGN])
 AC_ARG_ENABLE([uapp_uhsign],

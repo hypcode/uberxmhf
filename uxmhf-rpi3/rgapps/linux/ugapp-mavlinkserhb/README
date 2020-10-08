@@ -1,0 +1,47 @@
+///////////////////////////////////////////////////////////////////////////////
+MAVLINK serial heart-beat uberguest applications
+author(s): amit vasudevan (amitvasudevan@acm.org)
+///////////////////////////////////////////////////////////////////////////////
+
+//////
+building dependent libraries
+//////
+
+cd ..
+make
+
+
+
+//////
+to building the kernel module:
+//////
+
+make -C $LINUX_KERNEL_SRC ARCH=arm \
+CROSS_COMPILE=$CROSS_COMPILE_TOOLS_DIR/arm-linux-gnueabihf- \
+M=$PWD
+
+//////
+to cleanup kernel module build:
+//////
+
+make -C $LINUX_KERNEL_SRC ARCH=arm \
+CROSS_COMPILE=$CROSS_COMPILE_TOOLS_DIR/arm-linux-gnueabihf- \
+M=$PWD clean
+
+where
+LINUX_KERNEL_SRC = source root of linux kernel
+CROSS_COMPILE = directory where cross compile tool binaries are located
+
+
+//////
+to build the user application
+//////
+
+make builduserapp
+
+//////
+to cleanup user application
+//////
+
+make cleanuserapp
+

@@ -453,6 +453,8 @@ static inline u64 cpu_bswap_u64(u64 val){
 extern u32 mmio_read32 (u32 address);
 extern void mmio_write32 (u32 address, u32 value);
 
+extern u32 sysreg_read_sp(void);
+
 extern u32 sysreg_read_scr(void);
 
 extern u32 sysreg_read_cpsr(void);
@@ -465,6 +467,7 @@ extern u32 sysreg_read_hcr(void);
 extern void sysreg_write_hcr(u32 value);
 
 extern u32 sysreg_read_spsr_hyp(void);
+extern void sysreg_write_spsr_hyp(u32 value);
 
 extern u32 sysreg_read_hsctlr(void);
 extern void sysreg_write_hsctlr(u32 value);
@@ -550,6 +553,8 @@ void spin_lock(u32 *lock);
 void spin_unlock(u32 *lock);
 
 
+void cpu_eret(void);
+
 //////
 // pl0,1 system register access functions
 // chiefly used for emulation/pass-thru
@@ -565,7 +570,9 @@ void sysreg_write_ttbr1(u32 value);
 //////
 // generic timer system register access functions
 //////
+u32 sysreg_read_cntfrq(void);
 extern u64 sysreg_read_cntpct(void);
+extern u64 sysreg_read_cntvct(void);
 int sysreg_read_cnthp_tval(void);
 void sysreg_write_cnthp_tval(int value);
 u32 sysreg_read_cnthp_ctl(void);

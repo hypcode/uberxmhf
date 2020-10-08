@@ -53,8 +53,8 @@ void raise(void){
 	HALT();
 }
 
-#if 0
-void debug_hexdumpu32(u32 value){
+
+void __ll_debug_hexdumpu32(u32 value){
     u32 num_bits;
     u32 ch;
 
@@ -71,8 +71,16 @@ void debug_hexdumpu32(u32 value){
 
         uart_putc((u8)ch);
     }
-
-    uart_putc(' ');
-    uart_putc('\n');
 }
-#endif
+
+
+void debug_hexdumpu32(u32 value){
+	__ll_debug_hexdumpu32(value);
+    bcm2837_miniuart_putc('\n');
+}
+
+void debug_hexdumpu32_nolf(u32 value){
+	__ll_debug_hexdumpu32(value);
+}
+
+

@@ -32,6 +32,11 @@ framework and associated components.
 
 .. toctree::
    :maxdepth: 2
+   
+   general-swreq.rst
+
+.. toctree::
+   :maxdepth: 2
    :caption: PC Intel x86 32-bit:
 
    pc-intel-x86_32/hw-requirements
@@ -47,7 +52,7 @@ framework and associated components.
 
    rpi3-cortex_a53-armv8_32/hw-requirements
    rpi3-cortex_a53-armv8_32/supported-os
-   rpi3-cortex_a53-armv8_32/build
+   rpi3-cortex_a53-armv8_32/build/intro.rst
    rpi3-cortex_a53-armv8_32/installing
    rpi3-cortex_a53-armv8_32/debugging
 

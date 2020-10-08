@@ -1,12 +1,8 @@
 .. include:: /macros.rst
 
 
-Building
-========
-
-Build Core Micro-Hypervisor Framework
--------------------------------------
-
+Build Micro-Hypervisor Core Framework
+=====================================
 
 #. 
    Prepare raspberry pi sd-card image
@@ -92,52 +88,5 @@ Build Core Micro-Hypervisor Framework
       Also, if using PL011 UART, you can specify ``--enable-uart-pl011-ctsrts`` to enable UART hardware flow control. 
 
 
-Build uberApps
---------------
-
-Example uberApps are found within ``uxmhf-rpi3/rgapps/linux``. The following
-instructions show how the example uberApp ``rgapp-uhcalltest`` (to test 
-hypercalls) is built. 
 
 
-#. 
-   Building ``uhcallkmod`` on development system
-
-
-   #. ``cd rgapps/linux/rgapp-uhcallkmod``
-   #. ``./build.sh ~/linux ~/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/``
-   #. ``cp ./uhcallkmod.ko ~/uxmhf-rpi3-staging/.``
-
-#. 
-   Building ``uhcalltest`` on development system
-
-
-   #. ``cd rgapps/linux``
-   #. ``make -w all``
-   #. ``cd rgapp-uhcalltest``
-   #. ``make -w all``
-   #. ``cp ./uhcalltest ~/uxmhf-rpi3-staging/.``
-
-#. 
-   Note: you can enable other uberApps by running ``./configure`` with the appropriate 
-   parameters. The following uberApps are currently supported:
-
-
-   #. ``./configure --enable-uapp-uhsign`` to enable a uberApp which provides HMAC key signing functionality
-   #. ``./configure --enable-uapp-uagent`` to enable a uberApp which provides AES encryption functionality
-   #. ``./configure --enable-uapp-uhstateDB`` to enable a uberApp which provides a simple database that tracks the state of each entry   
-   #. ``./configure --enable-uapp-pvdriver-uart`` to enable a uberApp which provides a guest OS UART para-virtualized driver backend
-      
-      #. For the UART para-virtualized driver backend uapp, you will need to build the RPi kernel by ensuring that
-         ``CONFIG_SERIAL_AMBA_PL011=y`` and ``CONFIG_SERIAL_AMBA_PL011_CONSOLE=y`` within the file ``.config`` is replaced
-         by ``# CONFIG_SERIAL_AMBA_PL011 is not set`` and ``# CONFIG_SERIAL_AMBA_PL011_CONSOLE is not set`` respectively between
-         the ``make ARCH=arm CROSS_COMPILE=~/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf- bcm2709_defconfig``
-         and ``make -j 4 ARCH=arm CROSS_COMPILE=~/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf- zImage modules dtbs``
-         steps in the **Install and build RPI kernel on development system** section within **Build Core Micro-Hypervisor Framework**
-         above. 
-
-	 
-#.
-   Note about uberapp libraries:
-
-   #. There are two libraries to support integrating uberapps into an existing code base. There is a userspace library (``libuhcall``) and a kernel space library (``libkhcall``). These provide a function call interface for making a hyper call (e.g., ``uhcall()`` for making userspace calls to invoke an uberapp).

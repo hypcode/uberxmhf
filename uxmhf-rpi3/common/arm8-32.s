@@ -54,9 +54,21 @@ mmio_read32:
     ldr r0,[r0]
     bx lr
 
+
+.globl sysreg_read_sp
+sysreg_read_sp:
+	mov r0, sp
+	bx lr
+
+
 .globl sysreg_read_spsr_hyp
 sysreg_read_spsr_hyp:
 	mrs r0, SPSR_hyp
+	bx lr
+
+.globl sysreg_write_spsr_hyp
+sysreg_write_spsr_hyp:
+	msr SPSR_hyp, r0
 	bx lr
 
 
@@ -458,10 +470,23 @@ sysreg_read_par:
 //////
 // generic timer system registers
 //////
+.global sysreg_read_cntfrq
+sysreg_read_cntfrq:
+	mrc p15, 0, r0, c14, c0, 0
+	bx lr
+
 .global sysreg_read_cntpct
 sysreg_read_cntpct:
+	isb
 	mrrc p15, 0, r0, r1, c14
 	bx lr
+
+.global sysreg_read_cntvct
+sysreg_read_cntvct:
+	isb
+	mrrc p15, 1, r0, r1, c14
+	bx lr
+
 
 .global sysreg_read_cnthp_tval
 sysreg_read_cnthp_tval:
@@ -473,7 +498,6 @@ sysreg_write_cnthp_tval:
 	mcr p15,4,r0,c14,c2,0
 	bx lr
 
-
 .global sysreg_read_cnthp_ctl
 sysreg_read_cnthp_ctl:
 	mrc p15,4,r0,c14,c2,1
@@ -483,3 +507,8 @@ sysreg_read_cnthp_ctl:
 sysreg_write_cnthp_ctl:
 	mcr p15,4,r0,c14,c2,1
 	bx lr
+
+.global cpu_eret
+cpu_eret:
+	eret
+

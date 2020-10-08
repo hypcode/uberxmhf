@@ -556,9 +556,15 @@ void main(u32 r0, u32 id, struct atag *at, u32 cpuid){
 		uapp_pvdriver_uart_initialize_uapp(cpuid);
 	#endif
 
+	#if defined (__ENABLE_UAPP_HYPMTSCHEDULER__)
+		uapp_sched_initialize(cpuid);
+	#endif
+
+	#if defined (__ENABLE_UAPP_MAVLINKSERHB__)
+		uapp_mavlinkserhb_initialize(cpuid);
+	#endif
 
 	//////
-
 	// boot secondary cores
 	_XDPRINTF_("%s[%u]: proceeding to initialize SMP...\n", __func__, cpuid);
 	bcm2837_platform_smpinitialize();

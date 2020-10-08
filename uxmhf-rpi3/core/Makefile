@@ -127,6 +127,34 @@ uapp-watchdog.o : ../uapps/uapp-watchdog/uapp-watchdog.c
 	$(TOOLPREFIX)gcc $(CFLAGS) ../uapps/uapp-watchdog/uapp-watchdog.c -o uapp-watchdog.o
 
 
+ifeq ($(ENABLE_UAPP_HYPMTSCHEDULER), y)
+uapp-hypmtschedulersup.o : ../uapps/uapp-hypmtscheduler/uapp-hypmtschedulersup.s
+	$(TOOLPREFIX)gcc $(CFLAGS) ../uapps/uapp-hypmtscheduler/uapp-hypmtschedulersup.s -o uapp-hypmtschedulersup.o
+
+uapp-hypmtscheduler.o : ../uapps/uapp-hypmtscheduler/uapp-hypmtscheduler.c
+	$(TOOLPREFIX)gcc $(CFLAGS) ../uapps/uapp-hypmtscheduler/uapp-hypmtscheduler.c -o uapp-hypmtscheduler.o
+
+pqueue.o : ../uapps/uapp-hypmtscheduler/pqueue.c
+	$(TOOLPREFIX)gcc $(CFLAGS) ../uapps/uapp-hypmtscheduler/pqueue.c -o pqueue.o
+
+logging.o : ../uapps/uapp-hypmtscheduler/logging.c
+	$(TOOLPREFIX)gcc $(CFLAGS) ../uapps/uapp-hypmtscheduler/logging.c -o logging.o
+
+OPT_FILES += pqueue.o logging.o uapp-hypmtschedulersup.o uapp-hypmtscheduler.o
+endif
+
+
+ifeq ($(ENABLE_UAPP_HYPMTSCHEDULER), y)
+
+uapp-mavlinkserhb.o : ../uapps/uapp-mavlinkserhb/uapp-mavlinkserhb.c
+	$(TOOLPREFIX)gcc $(CFLAGS) ../uapps/uapp-mavlinkserhb/uapp-mavlinkserhb.c -o uapp-mavlinkserhb.o
+
+OPT_FILES += uapp-mavlinkserhb.o
+
+endif
+
+
+
 ghcall.o : ghcall.c
 	$(TOOLPREFIX)gcc $(CFLAGS) ghcall.c -o ghcall.o
 
@@ -140,7 +168,6 @@ core.bin: entry.o miniuart.o pl011uart.o mailbox.o strlen.o subr_prf.o debug.o a
 	$(TOOLPREFIX)gcc -E -P $(CFLAGS_DEFS) core.lscript.c -o core.ls 
 	$(TOOLPREFIX)ld entry.o miniuart.o pl011uart.o mailbox.o strlen.o subr_prf.o debug.o atags.o arm8-32.o hypvtablestubs.o hypvtable.o mmu.o hyppgtbl.o s2pgtbl.o uapi_s2pgtbl.o dmaprot.o intprot.o secboot.o bcm2837.o hyptimer.o ctxtrace.o uapp-uhcalltest.o uapp-utpmtest.o uapp-pa5encfs.o uapp-watchdogsup.o uapp-watchdog.o $(OPT_FILES) ghcall.o main.o -T core.ls -o core.elf $(LIBS) $(CCLIB)
 	$(TOOLPREFIX)objcopy core.elf -O binary core.bin
-
 
 .PHONY: clean
 clean:
